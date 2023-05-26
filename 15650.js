@@ -1,0 +1,28 @@
+let fs = require("fs");
+
+let filePath =
+  process.platform === "linux" ? "/dev/stdin" : __dirname + "/input.txt";
+
+let [n, m] = fs.readFileSync(filePath).toString().split(" ").map(Number);
+
+let arr = [];
+function fac(num) {
+  if (arr.length === m) {
+    let line = "";
+    for (let i = 0; i < m; i++) {
+      line += arr[i] + " ";
+    }
+    console.log(line);
+    return;
+  }
+
+  for (let i = num; i <= n; i++) {
+    if (!arr.includes(i)) {
+      arr.push(i);
+      fac(i + 1);
+      arr.pop(i);
+    }
+  }
+}
+
+fac(1);
