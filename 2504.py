@@ -1,30 +1,38 @@
-string = input()
+bracket = "(()[[]])([])"
 
 stack = []
-result = 0
-check = False
-for gwalho in string:
-    if check:
-        print(0)
-        break
+answer = 0
+tmp = 1
 
-    if gwalho == ")":
-        if len(stack) != 0:
-            compare = stack.pop()
-            if compare == "(":
-                result += 2
-            else:
-                check = True
-        else:
-            check = True
-    elif gwalho == "]":
-        if len(stack) != 0:
-            compare = stack.pop()
-            if compare == "[":
-                result += 2
-            else:
-                check = True
-        else:
-            check = True
+for i in range(len(bracket)):
+    if bracket[i] == "(":
+        stack.append(bracket[i])
+        tmp *= 2
+
+    elif bracket[i] == "[":
+        stack.append(bracket[i])
+        tmp *= 3
+
+    elif bracket[i] == ")":
+        if not stack or stack[-1] == "[":
+            answer = 0
+            break
+        if bracket[i - 1] == "(":
+            answer += tmp
+        stack.pop()
+        tmp //= 2
+
     else:
-        stack.append(stack)
+        if not stack or stack[-1] == "(":
+            answer = 0
+            break
+        if bracket[i - 1] == "[":
+            answer += tmp
+
+        stack.pop()
+        tmp //= 3
+
+if stack:
+    print(0)
+else:
+    print(answer)
