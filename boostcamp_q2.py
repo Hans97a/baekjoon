@@ -14,7 +14,7 @@ def solution(arr):
     global result
     string = ""
     i = 0
-    for idx, memory_type in enumerate(arr):
+    for memory_type in arr:
         if len(string) == 8:
             result.append(string)
             string = ""
