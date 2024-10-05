@@ -1,32 +1,37 @@
-def solution(book_time):
-    # 풀이설명1 : 함수 만들기
-    def change_min(str_time: str) -> int:
-        return int(str_time[0:2]) * 60 + int(str_time[3:])
+def solution(n):
+    answer = [[0] * n for _ in range(n)]
 
-    # 풀이 설명2 : 예약 시간이 빠른 순으로 정렬하기
-    book_times = sorted([[change_min(i[0]), change_min(i[1]) + 10] for i in book_time])
+    if n == 1:
+        return [[1]]
 
-    # 풀이 설명3 : 방 배정하기
-    rooms = []
-    for book_time in book_times:
-        if not rooms:
-            rooms.append(book_time)
-            continue
-        for index, room in enumerate(rooms):
-            if book_time[0] >= room[-1]:
-                rooms[index] = room + book_time
-                break
+    mode = 1
+
+    x = y = 0
+
+    for i in range(n * n):
+        answer[y][x] = i + 1
+
+        if mode % 4 == 1:
+            x += 1
+
+            if x == n - 1 or answer[y][x + 1] != 0:
+                mode += 1
+        elif mode % 4 == 2:
+            y += 1
+
+            if y == n - 1 or answer[y + 1][x] != 0:
+                mode += 1
+        elif mode % 4 == 3:
+            x -= 1
+
+            if x == n - 1 or answer[y][x - 1] != 0:
+                mode += 1
         else:
-            rooms.append(book_time)
-    return len(rooms)
+            y -= 1
+            if y == n - 1 or answer[y - 1][x] != 0:
+                mode += 1
+
+    return answer
 
 
-solution(
-    [
-        ["15:00", "17:00"],
-        ["16:40", "18:20"],
-        ["14:20", "15:20"],
-        ["14:10", "19:20"],
-        ["18:20", "21:20"],
-    ]
-)
+solution(4)
